@@ -1,7 +1,7 @@
 package fuzs.tradingpost.fabric;
 
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
-import fuzs.tradingpost.TradingPost;
+import fuzs.tradingpost.common.TradingPost;
 import net.fabricmc.api.ModInitializer;
 
 public class TradingPostFabric implements ModInitializer {
