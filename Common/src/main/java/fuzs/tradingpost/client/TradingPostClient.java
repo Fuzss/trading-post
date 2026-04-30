@@ -1,9 +1,9 @@
 package fuzs.tradingpost.client;
 
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.api.client.core.v1.context.BlockEntityRenderersContext;
-import fuzs.puzzleslib.api.client.core.v1.context.MenuScreensContext;
-import fuzs.puzzleslib.api.client.util.v1.SearchRegistryHelper;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.context.BlockEntityRenderersContext;
+import fuzs.puzzleslib.common.api.client.core.v1.context.MenuScreensContext;
+import fuzs.puzzleslib.common.api.client.util.v1.SearchRegistryHelper;
 import fuzs.tradingpost.TradingPost;
 import fuzs.tradingpost.client.gui.screens.inventory.TradingPostScreen;
 import fuzs.tradingpost.client.renderer.blockentity.TradingPostRenderer;

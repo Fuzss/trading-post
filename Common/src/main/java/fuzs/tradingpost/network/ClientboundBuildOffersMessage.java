@@ -1,9 +1,9 @@
 package fuzs.tradingpost.network;
 
-import fuzs.puzzleslib.api.client.util.v1.SearchRegistryHelper;
-import fuzs.puzzleslib.api.network.v4.message.MessageListener;
-import fuzs.puzzleslib.api.network.v4.message.WritableMessage;
-import fuzs.puzzleslib.api.network.v4.message.play.ClientboundPlayMessage;
+import fuzs.puzzleslib.common.api.client.util.v1.SearchRegistryHelper;
+import fuzs.puzzleslib.common.api.network.v4.message.MessageListener;
+import fuzs.puzzleslib.common.api.network.v4.message.WritableMessage;
+import fuzs.puzzleslib.common.api.network.v4.message.play.ClientboundPlayMessage;
 import fuzs.tradingpost.client.TradingPostClient;
 import fuzs.tradingpost.client.gui.screens.inventory.TradingPostScreen;
 import fuzs.tradingpost.world.inventory.TradingPostMenu;

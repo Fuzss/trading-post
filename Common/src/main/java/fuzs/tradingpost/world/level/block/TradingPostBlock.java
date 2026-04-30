@@ -1,12 +1,12 @@
 package fuzs.tradingpost.world.level.block;
 
 import com.mojang.serialization.MapCodec;
-import fuzs.puzzleslib.api.block.v1.entity.TickingEntityBlock;
+import fuzs.puzzleslib.common.api.block.v1.entity.TickingEntityBlock;
 import fuzs.tradingpost.TradingPost;
 import fuzs.tradingpost.config.ServerConfig;
 import fuzs.tradingpost.init.ModRegistry;
-import fuzs.tradingpost.world.item.trading.MerchantCollection;
 import fuzs.tradingpost.world.inventory.TradingPostMenu;
+import fuzs.tradingpost.world.item.trading.MerchantCollection;
 import fuzs.tradingpost.world.level.block.entity.TradingPostBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -156,7 +156,7 @@ public class TradingPostBlock extends BaseEntityBlock implements SimpleWaterlogg
                     merchants.sendMerchantData((ServerPlayer) player, containerId);
                 });
             } else {
-                player.displayClientMessage(MISSING_MERCHANT_COMPONENT, false);
+                player.sendSystemMessage(MISSING_MERCHANT_COMPONENT);
             }
 
             return InteractionResult.CONSUME;
@@ -164,7 +164,7 @@ public class TradingPostBlock extends BaseEntityBlock implements SimpleWaterlogg
     }
 
     public static boolean isAllowedToTrade(Entity entity) {
-        if (entity.getType().is(ModRegistry.EXCLUDE_FROM_TRADING_POST_ENTITY_TYPE_TAG)) {
+        if (entity.is(ModRegistry.EXCLUDE_FROM_TRADING_POST_ENTITY_TYPE_TAG)) {
             return false;
         }
 

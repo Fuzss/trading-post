@@ -1,6 +1,6 @@
 package fuzs.tradingpost.fabric.client;
 
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.tradingpost.TradingPost;
 import fuzs.tradingpost.client.TradingPostClient;
 import net.fabricmc.api.ClientModInitializer;

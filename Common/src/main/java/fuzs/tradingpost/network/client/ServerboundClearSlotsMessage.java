@@ -1,8 +1,8 @@
 package fuzs.tradingpost.network.client;
 
-import fuzs.puzzleslib.api.network.v4.message.MessageListener;
-import fuzs.puzzleslib.api.network.v4.message.WritableMessage;
-import fuzs.puzzleslib.api.network.v4.message.play.ServerboundPlayMessage;
+import fuzs.puzzleslib.common.api.network.v4.message.MessageListener;
+import fuzs.puzzleslib.common.api.network.v4.message.WritableMessage;
+import fuzs.puzzleslib.common.api.network.v4.message.play.ServerboundPlayMessage;
 import fuzs.tradingpost.world.inventory.TradingPostMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

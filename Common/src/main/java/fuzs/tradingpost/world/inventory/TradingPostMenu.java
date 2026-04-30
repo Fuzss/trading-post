@@ -61,16 +61,20 @@ public class TradingPostMenu extends MerchantMenu {
             boolean testRange = TradingPost.CONFIG.get(ServerConfig.class).enforceRange && ++this.ticks >= 20;
             return this.traders.updateAvailableMerchants((ServerPlayer) player, this.containerId, pos, testRange);
         });
-        if (this.ticks >= 20) this.ticks = 0;
+        if (this.ticks >= 20) {
+            this.ticks = 0;
+        }
+
         if (TradingPost.CONFIG.get(ServerConfig.class).closeEmptyScreen && anyTrader.isPresent() && !anyTrader.get()) {
-            player.displayClientMessage(TradingPostBlock.MISSING_MERCHANT_COMPONENT, false);
+            player.sendSystemMessage(TradingPostBlock.MISSING_MERCHANT_COMPONENT);
             return false;
         }
+
         return stillValid(this.access, player, ModRegistry.TRADING_POST_BLOCK.value());
     }
 
     @Override
-    protected void playTradeSound() {
+    public void playTradeSound() {
         if (!this.traders.isClientSide()) {
             Merchant merchant = this.traders.getCurrentMerchant();
             if (merchant instanceof Entity entity) {
@@ -91,22 +95,22 @@ public class TradingPostMenu extends MerchantMenu {
      * @see MerchantMenu#tryMoveItems(int)
      */
     public void clearPaymentSlots() {
-        ItemStack itemstack = this.tradeContainer.getItem(0);
-        if (!itemstack.isEmpty()) {
-            if (!this.moveItemStackTo(itemstack, 3, 39, true)) {
+        ItemStack oldCostA = this.tradeContainer.getItem(0);
+        if (!oldCostA.isEmpty()) {
+            if (!this.moveItemStackTo(oldCostA, 3, 39, true)) {
                 return;
             }
 
-            this.tradeContainer.setItem(0, itemstack);
+            this.tradeContainer.setItem(0, oldCostA);
         }
 
-        ItemStack itemstack1 = this.tradeContainer.getItem(1);
-        if (!itemstack1.isEmpty()) {
-            if (!this.moveItemStackTo(itemstack1, 3, 39, true)) {
+        ItemStack oldCostB = this.tradeContainer.getItem(1);
+        if (!oldCostB.isEmpty()) {
+            if (!this.moveItemStackTo(oldCostB, 3, 39, true)) {
                 return;
             }
 
-            this.tradeContainer.setItem(1, itemstack1);
+            this.tradeContainer.setItem(1, oldCostB);
         }
     }
 

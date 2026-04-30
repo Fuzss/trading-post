@@ -9,3 +9,8 @@ accessible  field   net/minecraft/world/inventory/MerchantMenu  trader  Lnet/min
 mutable field   net/minecraft/world/inventory/MerchantMenu  trader  Lnet/minecraft/world/item/trading/Merchant;
 accessible  field   net/minecraft/world/inventory/MerchantMenu  tradeContainer  Lnet/minecraft/world/inventory/MerchantContainer;
 mutable field   net/minecraft/world/inventory/MerchantMenu  tradeContainer  Lnet/minecraft/world/inventory/MerchantContainer;
+accessible	field	net/minecraft/client/gui/screens/inventory/MerchantScreen	shopItem	I
+accessible	field	net/minecraft/client/gui/screens/inventory/MerchantScreen	scrollOff	I
+accessible	method	net/minecraft/client/gui/screens/inventory/MerchantScreen	extractScroller	(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIIILnet/minecraft/world/item/trading/MerchantOffers;)V
+accessible	method	net/minecraft/client/gui/screens/inventory/MerchantScreen	extractButtonArrows	(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/item/trading/MerchantOffer;II)V
+accessible	method	net/minecraft/client/gui/screens/inventory/MerchantScreen	extractProgressBar	(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/world/item/trading/MerchantOffer;)V

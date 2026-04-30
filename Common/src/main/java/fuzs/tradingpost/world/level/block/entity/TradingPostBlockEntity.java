@@ -1,6 +1,6 @@
 package fuzs.tradingpost.world.level.block.entity;
 
-import fuzs.puzzleslib.api.block.v1.entity.TickingBlockEntity;
+import fuzs.puzzleslib.common.api.block.v1.entity.TickingBlockEntity;
 import fuzs.tradingpost.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
@@ -9,6 +9,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.world.Nameable;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -41,8 +42,8 @@ public class TradingPostBlockEntity extends BlockEntity implements Nameable, Tic
     }
 
     @Override
-    public void clientTick() {
-        this.animationController.tick(this.getLevel());
+    public void clientTick(Level level, BlockPos blockPos, BlockState blockState) {
+        this.animationController.tick(level);
     }
 
     public ItemStationAnimationController getAnimationController() {

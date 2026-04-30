@@ -2,8 +2,8 @@ package fuzs.tradingpost.world.item.trading;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import fuzs.puzzleslib.api.network.v4.MessageSender;
-import fuzs.puzzleslib.api.network.v4.PlayerSet;
+import fuzs.puzzleslib.common.api.network.v4.MessageSender;
+import fuzs.puzzleslib.common.api.network.v4.PlayerSet;
 import fuzs.tradingpost.TradingPost;
 import fuzs.tradingpost.config.ServerConfig;
 import fuzs.tradingpost.network.ClientboundBuildOffersMessage;

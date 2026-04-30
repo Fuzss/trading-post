@@ -1,7 +1,7 @@
 package fuzs.tradingpost.data.client;
 
-import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.client.data.v2.AbstractLanguageProvider;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.tradingpost.client.gui.screens.inventory.TradingPostScreen;
 import fuzs.tradingpost.init.ModRegistry;
 import fuzs.tradingpost.world.level.block.TradingPostBlock;

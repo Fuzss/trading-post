@@ -1,15 +1,14 @@
 package fuzs.tradingpost.client.gui.screens.inventory;
 
-import fuzs.puzzleslib.api.client.util.v1.SearchRegistryHelper;
-import fuzs.puzzleslib.api.network.v4.MessageSender;
+import fuzs.puzzleslib.common.api.client.util.v1.SearchRegistryHelper;
+import fuzs.puzzleslib.common.api.network.v4.MessageSender;
 import fuzs.tradingpost.TradingPost;
 import fuzs.tradingpost.client.TradingPostClient;
-import fuzs.tradingpost.mixin.client.accessor.MerchantScreenAccessor;
 import fuzs.tradingpost.network.client.ServerboundClearSlotsMessage;
 import fuzs.tradingpost.world.inventory.TradingPostMenu;
 import fuzs.tradingpost.world.item.trading.TradingPostOffers;
 import fuzs.tradingpost.world.level.block.entity.TradingPostBlockEntity;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.MerchantScreen;
@@ -54,9 +53,9 @@ public class TradingPostScreen extends MerchantScreen {
         super.init();
         for (MerchantScreen.TradeOfferButton tradeOfferButton : this.tradeOfferButtons) {
             tradeOfferButton.onPress = (Button button) -> {
-                int shopItem = tradeOfferButton.getIndex() + ((MerchantScreenAccessor) this).tradingpost$getScrollOff();
+                int shopItem = tradeOfferButton.getIndex() + this.scrollOff;
                 MerchantOffers offers = this.getMenu().getOffers();
-                ((MerchantScreenAccessor) this).tradingpost$setShopItem(shopItem);
+                this.shopItem = shopItem;
                 this.getMenu().setSelectionHint(shopItem);
                 this.getMenu().getTraders().setActiveOffer(offers.get(shopItem));
                 this.getMenu().tryMoveItems(shopItem);
@@ -90,15 +89,15 @@ public class TradingPostScreen extends MerchantScreen {
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         Component title = this.getDisplayTitle();
-        guiGraphics.drawString(this.font,
+        guiGraphics.text(this.font,
                 title,
                 (49 + this.imageWidth / 2 - this.font.width(title) / 2),
                 6,
                 0XFF404040,
                 false);
-        guiGraphics.drawString(this.font,
+        guiGraphics.text(this.font,
                 this.playerInventoryTitle,
                 this.inventoryLabelX,
                 this.inventoryLabelY,
@@ -121,26 +120,24 @@ public class TradingPostScreen extends MerchantScreen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTime) {
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTime) {
 
         MerchantOffers merchantoffers = this.getMenu().getOffers();
         this.setButtonsActive(merchantoffers);
 
-        int scrollOff = ((MerchantScreenAccessor) this).tradingpost$getScrollOff();
         Slot hoveredSlot = this.hoveredSlot;
         // set offers to empty to prevent MerchantScreen::render code from running, also disabled buttons drawing tooltips by changing scrollOff, as well as tooltip for hovered slot by removing hovered slot
         this.lock(true, merchantoffers.size(), null);
-        super.render(guiGraphics, mouseX, mouseY, partialTime);
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTime);
         // reset everything so we can do this ourselves
-        this.lock(false, scrollOff, hoveredSlot);
+        this.lock(false, this.scrollOff, hoveredSlot);
 
         if (!merchantoffers.isEmpty()) {
 
             // normally rendered as part of background, but skipped as offers are empty when it's called
-            int shopItemIndex = ((MerchantScreenAccessor) this).tradingpost$getShopItem();
-            if (shopItemIndex >= 0 && shopItemIndex < merchantoffers.size()) {
+            if (this.shopItem >= 0 && this.shopItem < merchantoffers.size()) {
 
-                MerchantOffer merchantoffer = merchantoffers.get(shopItemIndex);
+                MerchantOffer merchantoffer = merchantoffers.get(this.shopItem);
                 if (merchantoffer.isOutOfStock()) {
                     guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED,
                             OUT_OF_STOCK_SPRITE,
@@ -154,23 +151,15 @@ public class TradingPostScreen extends MerchantScreen {
 
             int posX = this.leftPos + 5;
             int posY = this.topPos + 16 + 2;
-            ((MerchantScreenAccessor) this).tradingpost$callRenderScroller(guiGraphics,
-                    this.leftPos,
-                    this.topPos,
-                    mouseX,
-                    mouseY,
-                    merchantoffers);
+            this.extractScroller(guiGraphics, this.leftPos, this.topPos, mouseX, mouseY, merchantoffers);
 
             for (int i = 0, merchantoffersSize = merchantoffers.size(); i < merchantoffersSize; i++) {
 
-                if (merchantoffers.size() <= 7 || (i >= scrollOff && i < 7 + scrollOff)) {
+                if (merchantoffers.size() <= 7 || (i >= this.scrollOff && i < 7 + this.scrollOff)) {
 
                     MerchantOffer merchantoffer = merchantoffers.get(i);
                     // move this call here to render below red overlay
-                    ((MerchantScreenAccessor) this).tradingpost$callRenderButtonArrows(guiGraphics,
-                            merchantoffer,
-                            this.leftPos,
-                            posY + 1);
+                    this.extractButtonArrows(guiGraphics, merchantoffer, this.leftPos, posY + 1);
                     if (!this.getMenu().getTraders().checkOffer(merchantoffer)) {
 
                         guiGraphics.fill(posX, posY, posX + 88, posY + 20, 822018048);
@@ -189,23 +178,20 @@ public class TradingPostScreen extends MerchantScreen {
                     this.renderAndDecorateCostA(guiGraphics, posX, posY, baseCostA, costA);
 
                     if (!costB.isEmpty()) {
-                        guiGraphics.renderFakeItem(costB, posX + 35, posY + 1);
-                        guiGraphics.renderItemDecorations(this.font, costB, posX + 35, posY + 1);
+                        guiGraphics.fakeItem(costB, posX + 35, posY + 1);
+                        guiGraphics.itemDecorations(this.font, costB, posX + 35, posY + 1);
                     }
 
-                    guiGraphics.renderFakeItem(result, posX + 68, posY + 1);
-                    guiGraphics.renderItemDecorations(this.font, result, posX + 68, posY + 1);
+                    guiGraphics.fakeItem(result, posX + 68, posY + 1);
+                    guiGraphics.itemDecorations(this.font, result, posX + 68, posY + 1);
                     posY += 20;
                 }
             }
 
-            MerchantOffer activeOffer = merchantoffers.get(shopItemIndex);
+            MerchantOffer activeOffer = merchantoffers.get(this.shopItem);
             if (this.getMenu().showProgressBar()) {
 
-                ((MerchantScreenAccessor) this).tradingpost$callRenderProgressBar(guiGraphics,
-                        this.leftPos,
-                        this.topPos,
-                        activeOffer);
+                this.extractProgressBar(guiGraphics, this.leftPos, this.topPos, activeOffer);
             }
 
             if (activeOffer.isOutOfStock() && this.isHovering(186, 35, 22, 21, mouseX, mouseY) && this.getMenu()
@@ -217,7 +203,7 @@ public class TradingPostScreen extends MerchantScreen {
             posY = this.topPos + 16 + 2;
             for (int i = 0, merchantoffersSize = merchantoffers.size(); i < merchantoffersSize; i++) {
 
-                if (merchantoffers.size() <= 7 || (i >= scrollOff && i < 7 + scrollOff)) {
+                if (merchantoffers.size() <= 7 || (i >= this.scrollOff && i < 7 + this.scrollOff)) {
 
                     MerchantOffer merchantoffer = merchantoffers.get(i);
                     if (!this.getMenu().getTraders().checkOffer(merchantoffer)) {
@@ -242,30 +228,24 @@ public class TradingPostScreen extends MerchantScreen {
             MerchantScreen.TradeOfferButton tradeOfferButton = this.tradeOfferButtons[i];
             if (tradeOfferButton.active && tradeOfferButton.isHoveredOrFocused()) {
 
-                tradeOfferButton.renderToolTip(guiGraphics, mouseX, mouseY);
+                tradeOfferButton.extractToolTip(guiGraphics, mouseX, mouseY);
             }
 
             tradeOfferButton.visible = i < this.getMenu().getOffers().size();
         }
-
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
-    private void renderAndDecorateCostA(GuiGraphics guiGraphics, int posX, int posY, ItemStack baseCostA, ItemStack costA) {
-        guiGraphics.renderFakeItem(costA, posX + 5, posY + 1);
+    private void renderAndDecorateCostA(GuiGraphicsExtractor guiGraphics, int posX, int posY, ItemStack baseCostA, ItemStack costA) {
+        guiGraphics.fakeItem(costA, posX + 5, posY + 1);
         if (baseCostA.getCount() == costA.getCount()) {
-            guiGraphics.renderItemDecorations(this.font, costA, posX + 5, posY + 1);
+            guiGraphics.itemDecorations(this.font, costA, posX + 5, posY + 1);
         } else {
-            guiGraphics.renderItemDecorations(this.font,
+            guiGraphics.itemDecorations(this.font,
                     baseCostA,
                     posX + 5,
                     posY + 1,
                     baseCostA.getCount() == 1 ? "1" : null);
-            guiGraphics.renderItemDecorations(this.font,
-                    costA,
-                    posX + 5 + 14,
-                    posY + 1,
-                    costA.getCount() == 1 ? "1" : null);
+            guiGraphics.itemDecorations(this.font, costA, posX + 5 + 14, posY + 1, costA.getCount() == 1 ? "1" : null);
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED,
                     DISCOUNT_STRIKETHRUOGH_SPRITE,
                     posX + 5 + 7,
@@ -278,10 +258,9 @@ public class TradingPostScreen extends MerchantScreen {
     private void setButtonsActive(MerchantOffers merchantoffers) {
         if (!merchantoffers.isEmpty()) {
             for (int i = 0; i < merchantoffers.size(); i++) {
-                int scrollOff = ((MerchantScreenAccessor) this).tradingpost$getScrollOff();
-                if (merchantoffers.size() <= 7 || (i >= scrollOff && i < 7 + scrollOff)) {
+                if (merchantoffers.size() <= 7 || (i >= this.scrollOff && i < 7 + this.scrollOff)) {
                     MerchantOffer offer = merchantoffers.get(i);
-                    this.tradeOfferButtons[i - scrollOff].active = this.getMenu().getTraders().checkOffer(offer);
+                    this.tradeOfferButtons[i - this.scrollOff].active = this.getMenu().getTraders().checkOffer(offer);
                 }
             }
         }
@@ -289,13 +268,13 @@ public class TradingPostScreen extends MerchantScreen {
 
     private void lock(boolean lockOffers, int newScrollOff, Slot newHoveredSlot) {
         this.getMenu().setOffersLocked(lockOffers);
-        ((MerchantScreenAccessor) this).tradingpost$setScrollOff(newScrollOff);
+        this.scrollOff = newScrollOff;
         this.hoveredSlot = newHoveredSlot;
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        super.renderBg(guiGraphics, partialTicks, mouseX, mouseY);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTicks);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED,
                 CREATIVE_INVENTORY_LOCATION,
                 this.leftPos + 11,
@@ -306,7 +285,7 @@ public class TradingPostScreen extends MerchantScreen {
                 12,
                 256,
                 256);
-        this.searchBox.render(guiGraphics, mouseX, mouseY, partialTicks);
+        this.searchBox.extractRenderState(guiGraphics, mouseX, mouseY, partialTicks);
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED,
                 MAGNIFYING_GLASS_LOCATION,
                 this.leftPos,
@@ -373,8 +352,8 @@ public class TradingPostScreen extends MerchantScreen {
             offers.setFilter(searchTree.search(query.toLowerCase(Locale.ROOT)));
         }
 
-        ((MerchantScreenAccessor) this).tradingpost$setScrollOff(0);
-        ((MerchantScreenAccessor) this).tradingpost$setShopItem(0);
+        this.scrollOff = 0;
+        this.shopItem = 0;
         this.getMenu().setSelectionHint(-1);
         this.getMenu().getTraders().setActiveOffer(null);
         this.getMenu().clearPaymentSlots();

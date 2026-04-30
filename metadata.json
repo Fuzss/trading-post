@@ -1,9 +1,10 @@
 {
+    "minecraft": "26.1.2",
     "mod": {
         "id": "tradingpost",
         "group": "fuzs.tradingpost",
         "name": "Trading Post",
-        "version": "21.11.0",
+        "version": "26.1.0",
         "authors": [
             "Fuzs"
         ],
@@ -36,13 +37,13 @@
     ],
     "links": [
         {
-            "name": "github",
-            "slug": "tradingpost"
-        },
-        {
             "name": "curseforge",
             "slug": "trading-post",
             "id": "539057"
+        },
+        {
+            "name": "github",
+            "slug": "trading-post"
         },
         {
             "name": "modrinth",
