@@ -16,7 +16,7 @@ public class ItemStationAnimationController {
     public float tRot;
 
     public ItemStationAnimationController(BlockPos blockPos) {
-        this.position = blockPos.getCenter();
+        this.position = Vec3.atCenterOf(blockPos);
     }
 
     public void tick(Level level) {

@@ -50,7 +50,7 @@ public final class ClientboundBuildOffersMessage implements ClientboundPlayMessa
             public void accept(Context context) {
                 if (context.player().containerMenu instanceof TradingPostMenu menu
                         && ClientboundBuildOffersMessage.this.containerId == menu.containerId) {
-                    if (context.client().screen instanceof TradingPostScreen screen) {
+                    if (context.client().gui.screen() instanceof TradingPostScreen screen) {
                         menu.getTraders().buildOffers(ClientboundBuildOffersMessage.this.idToOfferCount);
                         SearchRegistryHelper.populateSearchTree(TradingPostClient.MERCHANT_OFFERS_SEARCH_TREE,
                                 menu.getOffers());
