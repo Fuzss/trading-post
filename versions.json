@@ -6,11 +6,17 @@
     "26.1.x": "maintained",
     "26.2.x": "primary"
   },
-  "properties": {
-    "distributions.curseforge.id": "539057",
-    "distributions.curseforge.slug": "trading-post",
-    "distributions.github.slug": "trading-post",
-    "distributions.modrinth.id": "8pcjMDgj",
-    "distributions.modrinth.slug": "trading-post"
+  "distributions": {
+    "curseforge": {
+      "id": "539057",
+      "slug": "trading-post"
+    },
+    "github": {
+      "slug": "trading-post"
+    },
+    "modrinth": {
+      "id": "8pcjMDgj",
+      "slug": "trading-post"
+    }
   }
 }
