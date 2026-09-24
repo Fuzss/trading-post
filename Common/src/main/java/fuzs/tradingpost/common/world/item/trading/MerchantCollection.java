@@ -59,6 +59,9 @@ public class MerchantCollection implements Merchant {
 
     public void addMerchant(int entityId, Merchant merchant) {
         if (!merchant.getOffers().isEmpty()) {
+            if (this.idToMerchant.get(entityId) == this.currentMerchant) {
+                this.currentMerchant = merchant;
+            }
             this.idToMerchant.put(entityId, merchant);
         }
     }

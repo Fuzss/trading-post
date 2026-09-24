@@ -162,7 +162,9 @@ public class TradingPostMenu extends MerchantMenu {
 
     @Override
     public void setXp(int xpValue) {
-        // NO-OP
+        if (this.traders.isClientSide()) {
+            this.traders.overrideXp(xpValue);
+        }
     }
 
     @Override
