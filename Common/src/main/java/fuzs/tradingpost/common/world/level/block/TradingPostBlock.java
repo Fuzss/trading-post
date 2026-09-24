@@ -1,6 +1,5 @@
 package fuzs.tradingpost.common.world.level.block;
 
-import com.mojang.serialization.MapCodec;
 import fuzs.puzzleslib.common.api.block.v1.entity.TickingEntityBlock;
 import fuzs.tradingpost.common.TradingPost;
 import fuzs.tradingpost.common.config.ServerConfig;
@@ -52,7 +51,6 @@ import java.util.OptionalInt;
 public class TradingPostBlock extends BaseEntityBlock implements SimpleWaterloggedBlock, TickingEntityBlock<TradingPostBlockEntity> {
     public static final Component MISSING_MERCHANT_COMPONENT = Component.translatable("trading_post.no_trader_found");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final MapCodec<TradingPostBlock> CODEC = simpleCodec(TradingPostBlock::new);
     private static final VoxelShape LEG1 = Block.box(0.0, 0.0, 0.0, 4.0, 8.0, 4.0);
     private static final VoxelShape LEG2 = Block.box(12.0, 0.0, 0.0, 16.0, 8.0, 4.0);
     private static final VoxelShape LEG3 = Block.box(0.0, 0.0, 12.0, 4.0, 8.0, 16.0);
@@ -63,11 +61,6 @@ public class TradingPostBlock extends BaseEntityBlock implements SimpleWaterlogg
     public TradingPostBlock(Properties blockProperties) {
         super(blockProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override

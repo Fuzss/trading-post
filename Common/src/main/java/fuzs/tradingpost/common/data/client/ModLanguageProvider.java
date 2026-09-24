@@ -1,7 +1,7 @@
 package fuzs.tradingpost.common.data.client;
 
-import fuzs.puzzleslib.common.api.client.data.v2.AbstractLanguageProvider;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.client.data.v3.language.AbstractLanguageProvider;
+import fuzs.puzzleslib.common.api.data.v3.core.DataProviderContext;
 import fuzs.tradingpost.common.client.gui.screens.inventory.TradingPostScreen;
 import fuzs.tradingpost.common.init.ModRegistry;
 import fuzs.tradingpost.common.world.level.block.TradingPostBlock;
@@ -14,10 +14,10 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
     }
 
     @Override
-    public void addTranslations(TranslationBuilder builder) {
-        builder.add(ModRegistry.TRADING_POST_BLOCK.value(), "Trading Post");
-        builder.add(TradingPostBlockEntity.CONTAINER_COMPONENT, "Trading Post");
-        builder.add(TradingPostScreen.MERCHANT_UNAVAILABLE_COMPONENT, "The trader is no longer available.");
-        builder.add(TradingPostBlock.MISSING_MERCHANT_COMPONENT, "Couldn't find any available trader nearby");
+    public void addTranslations() {
+        this.add(ModRegistry.TRADING_POST_BLOCK.value(), "Trading Post");
+        this.add(TradingPostBlockEntity.CONTAINER_COMPONENT, "Trading Post");
+        this.add(TradingPostScreen.MERCHANT_UNAVAILABLE_COMPONENT, "The trader is no longer available.");
+        this.add(TradingPostBlock.MISSING_MERCHANT_COMPONENT, "Couldn't find any available trader nearby");
     }
 }

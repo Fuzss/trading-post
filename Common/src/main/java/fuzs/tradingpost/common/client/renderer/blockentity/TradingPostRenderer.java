@@ -62,10 +62,10 @@ public class TradingPostRenderer implements BlockEntityRenderer<TradingPostBlock
         poseStack.pushPose();
         poseStack.translate(0.5F, 1.03125F, 0.5F);
         poseStack.scale(0.8F, 0.8F, 0.8F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.animationController.rotation));
+        poseStack.rotateDegrees(Axis.YP, renderState.animationController.rotation);
         float open = renderState.animationController.open;
         poseStack.translate(0.0F, open, Math.sin(open * Math.PI));
-        poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F * (open - 1.0F)));
+        poseStack.rotateDegrees(Axis.XP, -90.0F * (open - 1.0F));
         float hoverAmount = (float) Math.sin(renderState.animationController.time * 0.06F) * open * 0.2F;
         poseStack.translate(0.0F, hoverAmount, 0.0F);
         renderState.item.submit(poseStack, nodeCollector, renderState.itemLightCoords, OverlayTexture.NO_OVERLAY, 0);

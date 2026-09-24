@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 public class ModRegistry {
     static final RegistryManager REGISTRIES = RegistryManager.from(TradingPost.MOD_ID);
@@ -28,7 +29,8 @@ public class ModRegistry {
                     .strength(2.5F)
                     .sound(SoundType.WOOD)
                     .ignitedByLava());
-    public static final Holder.Reference<Item> TRADING_POST_ITEM = REGISTRIES.registerBlockItem(TRADING_POST_BLOCK);
+    public static final Holder.Reference<Item> TRADING_POST_ITEM = REGISTRIES.registerBlockItem(TRADING_POST_BLOCK,
+            () -> new Item.Properties().cookingFuel(ContextIntProviders.COOKING_TIME_WOOD_BLOCKS));
     public static final Holder.Reference<BlockEntityType<TradingPostBlockEntity>> TRADING_POST_BLOCK_ENTITY_TYPE = REGISTRIES.registerBlockEntityType(
             "trading_post",
             TradingPostBlockEntity::new,

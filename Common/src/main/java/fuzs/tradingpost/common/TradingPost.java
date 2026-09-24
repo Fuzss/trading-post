@@ -2,7 +2,6 @@ package fuzs.tradingpost.common;
 
 import fuzs.puzzleslib.common.api.config.v3.ConfigHolder;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.common.api.core.v1.context.GameplayContentContext;
 import fuzs.puzzleslib.common.api.core.v1.context.PayloadTypesContext;
 import fuzs.puzzleslib.common.api.event.v1.BuildCreativeModeTabContentsCallback;
 import fuzs.tradingpost.common.config.ServerConfig;
@@ -14,7 +13,6 @@ import fuzs.tradingpost.common.network.client.ServerboundClearSlotsMessage;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import org.apache.commons.lang3.math.Fraction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,11 +42,6 @@ public class TradingPost implements ModConstructor {
         context.playToClient(ClientboundRemoveMerchantsMessage.class, ClientboundRemoveMerchantsMessage.STREAM_CODEC);
         context.playToClient(ClientboundBuildOffersMessage.class, ClientboundBuildOffersMessage.STREAM_CODEC);
         context.playToServer(ServerboundClearSlotsMessage.class, ServerboundClearSlotsMessage.STREAM_CODEC);
-    }
-
-    @Override
-    public void onRegisterGameplayContent(GameplayContentContext context) {
-        context.registerFuel(ModRegistry.TRADING_POST_BLOCK, Fraction.getFraction(3, 2));
     }
 
     public static Identifier id(String path) {

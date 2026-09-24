@@ -1,7 +1,7 @@
 package fuzs.tradingpost.common.data.client;
 
-import fuzs.puzzleslib.common.api.client.data.v2.AbstractModelProvider;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.client.data.v3.models.AbstractModelProvider;
+import fuzs.puzzleslib.common.api.data.v3.core.DataProviderContext;
 import fuzs.tradingpost.common.init.ModRegistry;
 import net.minecraft.client.data.models.BlockModelGenerators;
 

@@ -1,7 +1,7 @@
 package fuzs.tradingpost.neoforge.client;
 
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
+import fuzs.puzzleslib.neoforge.api.data.v3.core.DataProviderBuilder;
 import fuzs.tradingpost.common.TradingPost;
 import fuzs.tradingpost.common.client.TradingPostClient;
 import fuzs.tradingpost.common.data.client.ModLanguageProvider;
@@ -15,9 +15,7 @@ public class TradingPostNeoForgeClient {
 
     public TradingPostNeoForgeClient(ModContainer modContainer) {
         ClientModConstructor.construct(TradingPost.MOD_ID, TradingPostClient::new);
-        DataProviderHelper.registerDataProviders(TradingPost.MOD_ID,
-                ModLanguageProvider::new,
-                ModModelProvider::new
-        );
+        DataProviderBuilder.of(TradingPost.MOD_ID)
+                .addProvider(ModLanguageProvider::new, ModModelProvider::new);
     }
 }
