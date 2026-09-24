@@ -54,7 +54,7 @@ public final class ClientboundBuildOffersMessage implements ClientboundPlayMessa
                         menu.getTraders().buildOffers(ClientboundBuildOffersMessage.this.idToOfferCount);
                         SearchRegistryHelper.populateSearchTree(TradingPostClient.MERCHANT_OFFERS_SEARCH_TREE,
                                 menu.getOffers());
-                        screen.refreshSearchResults();
+                        screen.refreshSearchResults(false);
                     }
                 }
             }

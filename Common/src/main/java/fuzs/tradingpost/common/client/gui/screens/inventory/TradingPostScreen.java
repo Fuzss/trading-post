@@ -341,6 +341,10 @@ public class TradingPostScreen extends MerchantScreen {
     }
 
     public void refreshSearchResults() {
+        this.refreshSearchResults(true);
+    }
+
+    public void refreshSearchResults(boolean resetSelection) {
         if (!(this.getMenu().getOffers() instanceof TradingPostOffers offers)) {
             return;
         }
@@ -353,12 +357,14 @@ public class TradingPostScreen extends MerchantScreen {
             offers.setFilter(searchTree.search(query.toLowerCase(Locale.ROOT)));
         }
 
-        this.scrollOff = 0;
-        this.shopItem = 0;
-        this.getMenu().setSelectionHint(-1);
-        this.getMenu().getTraders().setActiveOffer(null);
-        this.getMenu().clearPaymentSlots();
-        MessageSender.broadcast(new ServerboundClearSlotsMessage());
+        if (resetSelection) {
+            this.scrollOff = 0;
+            this.shopItem = 0;
+            this.getMenu().setSelectionHint(-1);
+            this.getMenu().getTraders().setActiveOffer(null);
+            this.getMenu().clearPaymentSlots();
+            MessageSender.broadcast(new ServerboundClearSlotsMessage());
+        }
     }
 
     @Override
