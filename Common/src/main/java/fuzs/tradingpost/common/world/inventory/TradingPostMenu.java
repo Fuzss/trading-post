@@ -1,8 +1,10 @@
 package fuzs.tradingpost.common.world.inventory;
 
+import fuzs.puzzleslib.common.api.network.v4.MessageSender;
 import fuzs.tradingpost.common.TradingPost;
 import fuzs.tradingpost.common.config.ServerConfig;
 import fuzs.tradingpost.common.init.ModRegistry;
+import fuzs.tradingpost.common.network.client.ServerboundRequestMerchantsMessage;
 import fuzs.tradingpost.common.world.entity.npc.LocalMerchant;
 import fuzs.tradingpost.common.world.item.trading.MerchantCollection;
 import fuzs.tradingpost.common.world.level.block.TradingPostBlock;
@@ -175,6 +177,8 @@ public class TradingPostMenu extends MerchantMenu {
 
     @Override
     public void setOffers(MerchantOffers offers) {
-        // NO-OP
+        if (this.traders.isClientSide()) {
+            MessageSender.broadcast(new ServerboundRequestMerchantsMessage());
+        }
     }
 }

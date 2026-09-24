@@ -10,6 +10,7 @@ import fuzs.tradingpost.common.network.ClientboundBuildOffersMessage;
 import fuzs.tradingpost.common.network.ClientboundMerchantDataMessage;
 import fuzs.tradingpost.common.network.ClientboundRemoveMerchantsMessage;
 import fuzs.tradingpost.common.network.client.ServerboundClearSlotsMessage;
+import fuzs.tradingpost.common.network.client.ServerboundRequestMerchantsMessage;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -42,6 +43,7 @@ public class TradingPost implements ModConstructor {
         context.playToClient(ClientboundRemoveMerchantsMessage.class, ClientboundRemoveMerchantsMessage.STREAM_CODEC);
         context.playToClient(ClientboundBuildOffersMessage.class, ClientboundBuildOffersMessage.STREAM_CODEC);
         context.playToServer(ServerboundClearSlotsMessage.class, ServerboundClearSlotsMessage.STREAM_CODEC);
+        context.playToServer(ServerboundRequestMerchantsMessage.class, ServerboundRequestMerchantsMessage.STREAM_CODEC);
     }
 
     public static Identifier id(String path) {
